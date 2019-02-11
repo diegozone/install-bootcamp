@@ -90,3 +90,8 @@ Starting cloudera-scm-server (via systemctl):              [  OK  ]
 the Cloudera manager console url is http://node05:7180
 
 from outside Azure, it's necessary to use an ssh tunnel
+
+# Selinux settings
+
+On nodes where the local repository is installed and the Hue server is installed ,it's necessary to sel selinux permissive.
+
