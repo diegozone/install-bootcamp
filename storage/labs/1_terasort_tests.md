@@ -1,37 +1,36 @@
 I have created an ad-hoc user for this test and on HDFS I have created its home directory
 ```
 [root@node05 ~]# export HADOOP_USER_NAME=hdfs
-[root@node05 ~]# hadoop fs -mkdir /user/testuser
-[root@node05 ~]# hadoop fs -chown testuser:testuser /user/testuser
+[root@node05 ~]# hadoop fs -mkdir /user/diegozone
+[root@node05 ~]# hadoop fs -chown diegozone:diegozone /user/diegozone
 [root@node05 ~]# hadoop fs -ls /user
-Found 5 items
-drwxrwxrwx   - mapred   hadoop            0 2019-02-11 18:58 /user/history
-drwxrwxr-t   - hive     hive              0 2019-02-11 18:59 /user/hive
-drwxrwxr-x   - hue      hue               0 2019-02-11 18:59 /user/hue
-drwxrwxr-x   - oozie    oozie             0 2019-02-11 18:59 /user/oozie
-drwxr-xr-x   - testuser testuser          0 2019-02-12 14:01 /user/testuser
+Found 7 items
+drwxr-xr-x   - diegozone diegozone           0 2019-02-12 16:36 /user/diegozone
+drwx------   - hdfs      supergroup          0 2019-02-12 15:45 /user/hdfs
+drwxrwxrwx   - mapred    hadoop              0 2019-02-11 18:58 /user/history
+drwxrwxr-t   - hive      hive                0 2019-02-11 18:59 /user/hive
+drwxrwxr-x   - hue       hue                 0 2019-02-11 18:59 /user/hue
+drwxrwxr-x   - oozie     oozie               0 2019-02-11 18:59 /user/oozie
+
 ```
 
-Then, I have executed the teragen example several time with different settings
+Then, I have executed the teragen example with the settings specified in the exercise.
 ```
-export HADOOP_USER_NAME=testuser
-[root@node05 /]# time hadoop jar hadoop-examples.jar teragen -Dmapred.map.tasks=4 -Dmapred.map.tasks.speculative.execution=false 1000000000 /tmp/terasort-input
+export HADOOP_USER_NAME=diegozone
+time hadoop jar hadoop-examples.jar teragen -Dmapred.map.tasks=4 -Ddfs.block.size=32M  -Dmapred.map.tasks.speculative.execution=false 1000000000 /user/diegozone/terasort-input
 
-real    0m27.485s
-user    0m7.636s
-sys     0m0.549s
+real    31m39.237s
+user    0m14.309s
+sys     0m2.029s
+
+[root@node05 ~]# hadoop fs -du -h /user/diegozone
+0       0        /user/diegozone/.Trash
+0       0        /user/diegozone/.staging
+93.1 G  279.4 G  /user/diegozone/terasort-input
 
 
-[root@node05 /]# time hadoop jar hadoop-examples.jar teragen -Dmapred.map.tasks=8 -Dmapred.map.tasks.speculative.execution=false 1000000000 /tmp/terasort-input
-real    0m23.438s
-user    0m7.562s
-sys     0m0.532s
-
-[root@node05 /]# time hadoop jar hadoop-examples.jar teragen -Dmapred.map.tasks=12 -Dmapred.map.tasks.speculative.execution=false 1000000000 /tmp/terasort-input
-real    0m28.408s
-user    0m8.119s
-sys     0m0.535s
 ```
+
 then , I test cluster with terasort
 ```
 [root@node05 /]# time hadoop  jar hadoop-examples.jar terasort -Dmapred.map.tasks=4 -Dmapred.reduce.tasks=4 -Dmapred.reduce.tasks.speculative.execution=false /tmp/terasort-input /tmp/terasort-output
