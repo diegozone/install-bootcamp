@@ -28,3 +28,16 @@ After the end of the wizard , I have done the following manual configurations :
    In Cloudera Manager , under the Hue configuration page, for property "HDFS Web Interface Role"  I have set HttpFS
    
    Then , I have restarted Hue
+
+# DISTCP
+
+After opening the port 8020 on active namenode on internet , I have execute a  test copy of teragen folder
+```
+export HADOOP_USER_NAME=testuser
+[root@node05 ~]# hadoop distcp /tmp/terasort-input hdfs://52.174.100.66:8020/tmp/dist
+....
+ DistCp Counters
+                Bytes Copied=1000000000
+                Bytes Expected=1000000000
+                Files Copied=14
+```
