@@ -41,3 +41,9 @@ export HADOOP_USER_NAME=testuser
                 Bytes Expected=1000000000
                 Files Copied=14
 ```
+the check of folder size certifies the copy is ok
+```
+[root@node05 ~]# hadoop fs -du -h /tmp/
+953.7 M  2.8 G   /tmp/dist
+953.7 M  2.8 G   /tmp/terasort-input
+```
