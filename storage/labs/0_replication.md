@@ -31,7 +31,7 @@ After the end of the wizard , I have done the following manual configurations :
 
 # DISTCP
 
-After opening the port 8020 on active namenode on internet , I have execute a  test copy of teragen folder
+After opening the port 8020 on active namenode on internet , I have execute a  test copy of the teragen folder to my cluster using the public IP
 ```
 export HADOOP_USER_NAME=testuser
 [root@node05 ~]# hadoop distcp /tmp/terasort-input hdfs://52.174.100.66:8020/tmp/dist
