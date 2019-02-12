@@ -16,37 +16,31 @@ drwxrwxr-x   - oozie     oozie               0 2019-02-11 18:59 /user/oozie
 
 Then, I have executed the teragen example with the settings specified in the exercise.
 ```
-export HADOOP_USER_NAME=diegozone
-time hadoop jar hadoop-examples.jar teragen -Dmapred.map.tasks=4 -Ddfs.block.size=32M  -Dmapred.map.tasks.speculative.execution=false 1000000000 /user/diegozone/terasort-input
+[root@node05 ~]# export HADOOP_USER_NAME=diegozone
+[root@node05 ~]# time hadoop jar hadoop-examples.jar teragen -Dmapred.map.tasks=4 -Ddfs.block.size=32M  -Dmapred.map.tasks.speculative.execution=false 100000000 /user/diegozone/terasort-input
 
-real    31m39.237s
-user    0m14.309s
-sys     0m2.029s
+real    3m27.469s
+user    0m8.763s
+sys     0m0.762s
 
-[root@node05 ~]# hadoop fs -du -h /user/diegozone
-0       0        /user/diegozone/.Trash
-0       0        /user/diegozone/.staging
-93.1 G  279.4 G  /user/diegozone/terasort-input
-
+[root@node05 ~]# hadoop fs -du -h /user/diegozone                                                                                        0      0       /user/diegozone/.Trash
+0      0       /user/diegozone/.staging
+9.3 G  27.9 G  /user/diegozone/terasort-input
 
 ```
 
 then , I test cluster with terasort
 ```
-[root@node05 /]# time hadoop  jar hadoop-examples.jar terasort -Dmapred.map.tasks=4 -Dmapred.reduce.tasks=4 -Dmapred.reduce.tasks.speculative.execution=false /tmp/terasort-input /tmp/terasort-output
-real    0m44.440s
-user    0m9.663s
-sys     0m0.591s
+[root@node05 /]# time hadoop  jar hadoop-examples.jar terasort -Dmapred.map.tasks=8 -Dmapred.reduce.tasks=8 -Dmapred.reduce.tasks.speculative.execution=false /user/diegozone/terasort-input /user/diegozone/terasort-output
+real    5m47.520s
+user    0m11.115s
+sys     0m0.832s
 
-[root@node05 /]# time hadoop  jar hadoop-examples.jar terasort -Dmapred.map.tasks=8 -Dmapred.reduce.tasks=8 -Dmapred.reduce.tasks.speculative.execution=false /tmp/terasort-input /tmp/terasort-output
-real    0m40.786s
-user    0m9.052s
-sys     0m0.562s
+0      0       /user/diegozone/.Trash
+0      0       /user/diegozone/.staging
+9.3 G  27.9 G  /user/diegozone/terasort-input
+9.3 G  9.3 G   /user/diegozone/terasort-output
 
-[root@node05 /]# time hadoop  jar hadoop-examples.jar terasort -Dmapred.map.tasks=12 -Dmapred.reduce.tasks=12 -Dmapred.reduce.tasks.speculative.execution=false /tmp/terasort-input /tmp/terasort-output
-real    0m44.175s
-user    0m9.568s
-sys     0m0.565s
 ```
-
-The conclusion is that , in case of dedicated cluster,for current configuration the best choise is to set 2 mapper and 2 reducer per worker (At the end I have 4 workers)
+The terasort-output folder is under replication of the blocks.
+Infact,the "HDFS \chart libraries \ blocks and files" highlights a big number of blocks not replicated . 
