@@ -25,6 +25,9 @@ do
 
         echo "MAP_MB: $MAP_MB"
         echo "RED_MB: $RED_MB"
+        echo "i: $i"
+        echo "j: $j"
+        echo "k: $k"
         time ${HADOOP}/hadoop jar ${MR}/hadoop-examples.jar teragen \
                      -Dmapreduce.job.maps=$i \
                      -Dmapreduce.map.memory.mb=$k \
