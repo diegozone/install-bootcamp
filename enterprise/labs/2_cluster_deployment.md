@@ -1,6 +1,6 @@
 Below, the output of the command 
 
-curl -u diegozone:cloudera http://localhost:7180/api/v2/cm/deployment
+curl -u diegozone:cloudera http://localhost:7180/api/v19/cm/deployment
 
 ```
 {
