@@ -1,4 +1,4 @@
-*The full teragen command and output
+* The full teragen command and output
 ```
 [root@master ~]# export HADOOP_USER_NAME=rocky
 [root@master ~]# time hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-examples.jar teragen -Dmapreduce.map.tasks=8 -Dmapreduce.job.maps=8 -D mapreduce.map.memory.mb=768 12345000 /user/rocky/tgen
